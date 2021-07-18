@@ -1,3 +1,4 @@
+
 const Discord = require('discord.js');
 const client = new Discord.Client({partials: ["MESSAGE", "USER", "REACTION"]});
 const enmap = require('enmap');
@@ -9,6 +10,19 @@ const settings = new enmap({
     cloneLevel: "deep",
     fetchAll: true
 });
+
+var express = require('express');
+var app = express();
+
+app.use('/', express.static('public'));
+
+app.get('/', function(req, res) {
+    res.sendFile(__dirname + '/index.html');
+});
+
+app.listen(process.env.PORT || 8080);
+
+
 
 client.on('ready', () => {
     console.log('ready')
@@ -78,5 +92,6 @@ client.on('messageReactionAdd', async (reaction, user) => {
         })
     }
 });
+
 
 client.login(token);
